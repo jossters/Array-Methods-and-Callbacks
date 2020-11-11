@@ -19,29 +19,41 @@ Investigate the data above. Practice accessing data by console.log-ing the follo
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 Create a function called  getFinals that takes `data` as an argument and returns an array of objects with only finals data */
 
-function getFinals(/* code here */) {
-   /* code here */
+function getFinals(data) {
+    const soccerFinal = data.filter(item => item.Stage === 'Final' );
+    return soccerFinal;
 }
-
+getFinals(fifaData);
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Implement a higher-order function called `getYears` that accepts the callback function `getFinals`, and returns an array called `years` containing all of the years in the dataset */
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(data, getFinalsCB) {
+    const years = getFinalsCB(data).map(function(item){
+        return item['Year']; 
+    });
+    return years;
+    
 }
-
-
+getYears(fifaData, getFinals);
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 4: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Implement a higher-order function called `getWinners`, that accepts the callback function `getFinals()` and determine the winner (home or away) of each `finals` game. Return the name of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
-}
-
+function getWinners(callback ) {
+    const winners = [];
+    callback.filter(function (item) {
+      if (Math.sign(["Home Team Goals"] - ["Away Team Goals"]) === 1) {
+        winners.push(item["Home Team Name"]);
+      } else {
+        winners.push(item["Away Team Name"]);
+      }
+    });
+    return winners; 
+  }
+  getWinners(getFinals(fifaData));
 
 
 
@@ -53,10 +65,17 @@ Parameters:
  * callback function getYears
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(data,getYearsCB,getWinnersCB) {
+    
+    const winY= getWinnersCB(data).map(function(item, index){
+        return `In ${getYears[index]}, ${item} won the world cup!`
+    });
+    return winY;
 }
 
+
+getWinnersByYear(fifaData,getYears,getWinners)
+console.log(getYears)
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 6: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
 
